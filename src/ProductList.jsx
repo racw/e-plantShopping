@@ -11,7 +11,19 @@ function ProductList({ onHomeClick }) {
     const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+    // Add this useEffect to sync addedToCart state with cart items
     const [addedToCart, setAddedToCart] = useState({});
+    
+    useEffect(() => {
+        const cartItemNames = cartItems.map(item => item.name);
+        setAddedToCart(prevState => {
+            const newState = {};
+            Object.keys(prevState).forEach(key => {
+                newState[key] = cartItemNames.includes(key);
+            });
+            return newState;
+        });
+    }, [cartItems]);
     const plantsArray = [
         {
             category: "Air Purifying Plants",
