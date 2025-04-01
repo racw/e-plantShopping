@@ -266,12 +266,12 @@ function ProductList({ onHomeClick }) {
                 ...prevState, 
                 [product.name]: true, 
             }));
-            // Optional: Add visual feedback
             alert(`${product.name} added to cart!`);
         } catch (error) {
             console.error('Error adding item to cart:', error);
         }
     }
+
     return (
         <div>
             <div className="navbar" style={styleObj}>
@@ -335,7 +335,17 @@ function ProductList({ onHomeClick }) {
                                         <div className='product-title'>{plant.name}</div>
                                         <div>{plant.description}</div>
                                         <div className='product-price'>{plant.cost}</div>
-                                        <button className='product-button' onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                        <button 
+                                            className='product-button' 
+                                            onClick={() => handleAddToCart(plant)}
+                                            disabled={addedToCart[plant.name]}
+                                            style={{
+                                                backgroundColor: addedToCart[plant.name] ? '#cccccc' : '#4CAF50',
+                                                cursor: addedToCart[plant.name] ? 'not-allowed' : 'pointer'
+                                            }}
+                                        >
+                                            {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+                                        </button>
                                     </div>
                                 ))}
                             </div>
